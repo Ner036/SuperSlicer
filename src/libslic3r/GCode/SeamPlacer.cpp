@@ -560,10 +560,7 @@ Point SeamPlacer::calculate_seam(const Layer& layer, SeamPosition seam_position,
                 //xy in object coordinates, z in plater coordinates
                 Vec3d test_lambda_pos = model_instance->transform_vector(v->get_offset(), true);
 
-                Point xy_lambda(scale_(test_lambda_pos.x()), scale_(test_lambda_pos.y()));
-                Point nearest = polygon.point_projection(xy_lambda);
-                Vec3d polygon_3dpoint{ unscaled(nearest.x()), unscaled(nearest.y()), (double)layer.print_z };
-                double test_lambda_dist = (polygon_3dpoint - test_lambda_pos).norm();
+                double test_lambda_dist = std::abs(layer.print_z - test_lambda_pos.z());
                 double sphere_radius = po->model_object()->instance_bounding_box(0, true).size().x() / 2;
                 //if (test_lambda_dist > sphere_radius)
                 //    continue;
